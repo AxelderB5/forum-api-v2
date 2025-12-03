@@ -48,6 +48,7 @@ jobs:
             echo "ACCESS_TOKEN_KEY=rahasia-banget-produksi" >> .env
             echo "REFRESH_TOKEN_KEY=rahasia-pisan-produksi" >> .env
             echo "ACCESS_TOKEN_AGE=1800" >> .env
+            echo "NODE_ENV=production" >> .env
 
             # 6. Jalankan Migrasi Database
             # Pakai tanda -- up agar argumen terbaca jelas
