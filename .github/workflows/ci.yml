@@ -51,8 +51,8 @@ jobs:
         PGDATABASE: forumapi_test
         PGPORT: 5432
         # Masukkan dummy key agar env valid (isi bebas untuk testing)
-        ACCESS_TOKEN_KEY: rahasia
-        REFRESH_TOKEN_KEY: rahasia
+        ACCESS_TOKEN_KEY: rahasia-untuk-access
+        REFRESH_TOKEN_KEY: rahasia-untuk-refresh
 
     - name: Run Tests
       run: npm run test
