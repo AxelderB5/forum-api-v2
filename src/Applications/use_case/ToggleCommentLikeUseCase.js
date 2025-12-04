@@ -8,9 +8,9 @@ class ToggleCommentLikeUseCase {
   async execute(threadId, commentId, owner) {
     await this._threadRepository.verifyThreadExists(threadId);
     await this._commentRepository.verifyCommentExists(commentId);
-    
+
     const isLiked = await this._commentLikeRepository.verifyLikeExists(commentId, owner);
-    
+
     if (isLiked) {
       await this._commentLikeRepository.deleteLike(commentId, owner);
     } else {

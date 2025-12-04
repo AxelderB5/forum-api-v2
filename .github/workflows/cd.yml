@@ -14,46 +14,28 @@ jobs:
       - name: SSH and Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
-          # Mengambil data dari Secrets yang sudah kita setting
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-
-            # 1. Cek apakah folder proyek sudah ada atau belum
-            # PENTING: GANTI URL DI BAWAH INI DENGAN URL REPO GITHUB KAMU ASLI!
             if [ ! -d "forum-api" ]; then
               git clone https://github.com/AxelderB5/forum-api-v2.git forum-api
             fi
 
-            # 2. Masuk ke dalam folder
             cd forum-api
-
-            # 3. Ambil kode terbaru dari branch main
             git pull origin main
-
-            # 4. Install dependencies terbaru
             npm install
 
-            # 5. MEMBUAT FILE .ENV SECARA OTOMATIS (Ini yang tidak ada di tutorial)
-            # Kita injeksi data dari GitHub Secrets ke dalam file .env di server
             echo "PGUSER=${{ secrets.PGUSER }}" > .env
             echo "PGHOST=${{ secrets.PGHOST }}" >> .env
             echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> .env
             echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> .env
             echo "PGPORT=${{ secrets.PGPORT }}" >> .env
-            
-            # Token Key (Boleh pakai secrets, atau hardcode untuk produksi)
             echo "ACCESS_TOKEN_KEY=rahasia-banget-produksi" >> .env
             echo "REFRESH_TOKEN_KEY=rahasia-pisan-produksi" >> .env
             echo "ACCESS_TOKEN_AGE=1800" >> .env
             echo "NODE_ENV=production" >> .env
 
-            # 6. Jalankan Migrasi Database
-            # Pakai tanda -- up agar argumen terbaca jelas
             npm run migrate -- up
-
-            # 7. Restart Aplikasi dengan PM2
-            # Logikanya: Kalau belum jalan, start. Kalau sudah jalan, restart.
             pm2 restart forum-api || pm2 start src/app.js --name forum-api

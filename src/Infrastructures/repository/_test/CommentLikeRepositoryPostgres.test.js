@@ -23,9 +23,12 @@ describe('CommentLikeRepositoryPostgres', () => {
       await UsersTableTestHelper.addUser({ id: 'user-123' });
       await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
       await CommentsTableTestHelper.addComment({ id: 'comment-123' });
-      
+
       const fakeIdGenerator = () => '123';
-      const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(pool, fakeIdGenerator);
+      const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(
+        pool,
+        fakeIdGenerator,
+      );
 
       // Action
       await commentLikeRepositoryPostgres.addLike('comment-123', 'user-123');
@@ -43,7 +46,7 @@ describe('CommentLikeRepositoryPostgres', () => {
       await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
       await CommentsTableTestHelper.addComment({ id: 'comment-123' });
       await CommentLikesTableTestHelper.addLike({ id: 'like-123', commentId: 'comment-123', owner: 'user-123' });
-      
+
       const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(pool, {});
 
       // Action
@@ -62,7 +65,7 @@ describe('CommentLikeRepositoryPostgres', () => {
       await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
       await CommentsTableTestHelper.addComment({ id: 'comment-123' });
       await CommentLikesTableTestHelper.addLike({ id: 'like-123', commentId: 'comment-123', owner: 'user-123' });
-      
+
       const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(pool, {});
 
       // Action
@@ -93,7 +96,7 @@ describe('CommentLikeRepositoryPostgres', () => {
       await CommentsTableTestHelper.addComment({ id: 'comment-123' });
       await CommentLikesTableTestHelper.addLike({ id: 'like-123', commentId: 'comment-123', owner: 'user-123' });
       await CommentLikesTableTestHelper.addLike({ id: 'like-456', commentId: 'comment-123', owner: 'user-456' });
-      
+
       const commentLikeRepositoryPostgres = new CommentLikeRepositoryPostgres(pool, {});
 
       // Action
